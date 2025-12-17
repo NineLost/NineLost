@@ -57,6 +57,8 @@ class EncoderOdom(Node):
             self.last_left = left
             self.last_right = right
             self.last_stamp = stamp
+            
+            self.publish_odom(stamp, 0.0, 0.0)
             return
 
         dt = (stamp - self.last_stamp).nanoseconds / 1e9
@@ -88,6 +90,7 @@ class EncoderOdom(Node):
         wz = d_th / dt
 
         self.publish_odom(stamp, vx, wz)
+        self.get_logger().info(f"RECEIVED wheel_ticks: {msg.data}")
 
     def publish_odom(self, stamp, vx, wz):
         qz = math.sin(self.th / 2.0)
