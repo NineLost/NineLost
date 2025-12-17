@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import math
-
 import rclpy
 from rclpy.node import Node
 
@@ -12,113 +11,106 @@ from tf2_ros import TransformBroadcaster
 class OdomFusion(Node):
     """
     Fuse:
-      - /odom_encoder (x, y, vx, wz)
-      - /odom_imu     (yaw)
-    → xuất /odom + TF odom -> base_link
+      - /odom_encoder : x, y, vx, wz
+      - /odom_imu     : yaw
+    Publish:
+      - /odom
+      - TF odom -> base_link  (LUÔN TỒN TẠI)
     """
 
     def __init__(self):
         super().__init__("odom_fusion")
 
-        self.encoder_sub = self.create_subscription(
+        # --- Subscribers ---
+        self.sub_encoder = self.create_subscription(
             Odometry, "/odom_encoder", self.cb_encoder, 20
         )
-        self.imu_sub = self.create_subscription(
+        self.sub_imu = self.create_subscription(
             Odometry, "/odom_imu", self.cb_imu, 20
         )
 
-        self.pub = self.create_publisher(Odometry, "/odom", 20)
-        self.tf_pub = TransformBroadcaster(self)
+        # --- Publisher ---
+        self.odom_pub = self.create_publisher(Odometry, "/odom", 20)
 
+        # --- TF ---
+        self.tf_broadcaster = TransformBroadcaster(self)
+
+        # --- State ---
         self.x = 0.0
         self.y = 0.0
-        self.th = 0.0
+        self.yaw = 0.0
 
-        self.last_encoder = None
-        self.last_imu_yaw = 0.0
+        self.vx = 0.0
+        self.wz = 0.0
 
-        # Timer debug: 0.5s gửi TF 1 lần để đảm bảo TF tồn tại
-        self.debug_timer = self.create_timer(0.5, self.debug_timer_cb)
+        self.have_encoder = False
+        self.have_imu = False
 
-        self.get_logger().info("Odom Fusion started: encoder + imu")
+        # --- TF timer (QUAN TRỌNG) ---
+        self.tf_timer = self.create_timer(0.05, self.publish_tf)
+
+        self.get_logger().info("OdomFusion READY (standard odom)")
+
+    # ================= CALLBACKS =================
 
     def cb_encoder(self, msg: Odometry):
-        self.last_encoder = msg
+        self.x = msg.pose.pose.position.x
+        self.y = msg.pose.pose.position.y
+        self.vx = msg.twist.twist.linear.x
+        self.wz = msg.twist.twist.angular.z
+        self.have_encoder = True
+
+        if self.have_imu:
+            self.publish_odom(msg.header.stamp)
 
     def cb_imu(self, msg: Odometry):
         qz = msg.pose.pose.orientation.z
         qw = msg.pose.pose.orientation.w
-        yaw = 2.0 * math.atan2(qz, qw)
-        self.last_imu_yaw = yaw
-        self.update_odom()
+        self.yaw = 2.0 * math.atan2(qz, qw)
+        self.have_imu = True
 
-    def update_odom(self):
-        if self.last_encoder is None:
-            return
+    # ================= PUBLISHERS =================
 
-        enc = self.last_encoder
-        stamp = enc.header.stamp
+    def publish_odom(self, stamp):
+        qz = math.sin(self.yaw / 2.0)
+        qw = math.cos(self.yaw / 2.0)
 
-        # X, Y từ encoder
-        self.x = enc.pose.pose.position.x
-        self.y = enc.pose.pose.position.y
+        odom = Odometry()
+        odom.header.stamp = stamp
+        odom.header.frame_id = "odom"
+        odom.child_frame_id = "base_link"
 
-        # Yaw từ IMU
-        self.th = self.last_imu_yaw
+        odom.pose.pose.position.x = self.x
+        odom.pose.pose.position.y = self.y
+        odom.pose.pose.position.z = 0.0
+        odom.pose.pose.orientation.z = qz
+        odom.pose.pose.orientation.w = qw
 
-        qz = math.sin(self.th / 2.0)
-        qw = math.cos(self.th / 2.0)
+        odom.twist.twist.linear.x = self.vx
+        odom.twist.twist.angular.z = self.wz
 
-        od = Odometry()
-        od.header.stamp = stamp
-        od.header.frame_id = "odom"
-        od.child_frame_id = "base_link"
+        self.odom_pub.publish(odom)
 
-        od.pose.pose.position.x = self.x
-        od.pose.pose.position.y = self.y
-        od.pose.pose.position.z = 0.0
-        od.pose.pose.orientation.z = qz
-        od.pose.pose.orientation.w = qw
+    def publish_tf(self):
+        """
+        TF LUÔN ĐƯỢC PUBLISH
+        → đảm bảo frame 'odom' luôn tồn tại
+        """
+        qz = math.sin(self.yaw / 2.0)
+        qw = math.cos(self.yaw / 2.0)
 
-        od.twist = enc.twist
-
-        self.pub.publish(od)
-
-        # TF từ dữ liệu thật
         t = TransformStamped()
-        t.header.stamp = stamp
+        t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = "odom"
         t.child_frame_id = "base_link"
+
         t.transform.translation.x = self.x
         t.transform.translation.y = self.y
         t.transform.translation.z = 0.0
         t.transform.rotation.z = qz
         t.transform.rotation.w = qw
 
-        self.tf_pub.sendTransform(t)
-
-    def debug_timer_cb(self):
-        """
-        Timer debug: nếu vì lý do nào đó update_odom chưa chạy,
-        ta vẫn gửi một TF (x,y,theta hiện tại – mặc định 0,0,0).
-        Mục đích: đảm bảo frame 'odom' & 'base_link' tồn tại trong TF tree.
-        """
-        now = self.get_clock().now().to_msg()
-
-        qz = math.sin(self.th / 2.0)
-        qw = math.cos(self.th / 2.0)
-
-        t = TransformStamped()
-        t.header.stamp = now
-        t.header.frame_id = "odom"
-        t.child_frame_id = "base_link"
-        t.transform.translation.x = self.x
-        t.transform.translation.y = self.y
-        t.transform.translation.z = 0.0
-        t.transform.rotation.z = qz
-        t.transform.rotation.w = qw
-
-        self.tf_pub.sendTransform(t)
+        self.tf_broadcaster.sendTransform(t)
 
 
 def main(args=None):
@@ -134,4 +126,5 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
+
 
