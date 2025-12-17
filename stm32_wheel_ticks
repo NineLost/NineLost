@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+import serial
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import Int32MultiArray
+
+
+class STM32WheelTicks(Node):
+    """
+    Read encoder ticks from STM32 via serial
+    Expect line format:
+      ENC ms=12345 T=113709,113709,113709,113709 D=0
+    Publish:
+      /wheel_ticks (Int32MultiArray) = [FL, FR, RL, RR]
+    """
+
+    def __init__(self):
+        super().__init__("stm32_wheel_ticks")
+
+        self.port = self.declare_parameter("port", "/dev/ttyACM0").value
+        self.baud = self.declare_parameter("baud", 115200).value
+
+        self.pub = self.create_publisher(Int32MultiArray, "/wheel_ticks", 20)
+
+        try:
+            self.ser = serial.Serial(self.port, self.baud, timeout=0.1)
+            self.get_logger().info(f"STM32 connected: {self.port} @ {self.baud}")
+        except Exception as e:
+            self.get_logger().fatal(f"Cannot open serial: {e}")
+            raise SystemExit
+
+        self.timer = self.create_timer(0.01, self.read_serial)
+
+    # =====================================================
+    def read_serial(self):
+        try:
+            if self.ser.in_waiting == 0:
+                return
+
+            line = self.ser.readline().decode(errors="ignore").strip()
+            ticks = self.parse_line(line)
+
+            if ticks is None:
+                return
+
+            msg = Int32MultiArray()
+            msg.data = ticks
+            self.pub.publish(msg)
+
+        except Exception as e:
+            self.get_logger().error(f"Serial read error: {e}")
+
+    # =====================================================
+    def parse_line(self, line: str):
+        if not line.startswith("ENC"):
+            return None
+
+        try:
+            # Lấy phần sau T=
+            t_part = line.split("T=")[1]
+            t_values = t_part.split()[0]   # cắt trước D=...
+            ticks = [int(v) for v in t_values.split(",")]
+
+            if len(ticks) != 4:
+                self.get_logger().warn(f"Invalid tick count: {ticks}")
+                return None
+
+            return ticks
+
+        except Exception as e:
+            self.get_logger().warn(f"Parse error: {e}, line='{line}'")
+            return None
+
+
+def main():
+    rclpy.init()
+    node = STM32WheelTicks()
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    node.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == "__main__":
+    main()
