@@ -21,7 +21,7 @@ class ImuOdom(Node):
         )
         self.pub = self.create_publisher(Odometry, '/odom_imu', 20)
 
-        self.get_logger().info("IMU Odom READY (yaw only)")
+        self.get_logger().info("IMU Odom ready")
 
     def cb_imu(self, msg: Imu):
         qx, qy, qz, qw = msg.orientation.x, msg.orientation.y, msg.orientation.z, msg.orientation.w
