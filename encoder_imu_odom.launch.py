@@ -51,6 +51,16 @@ def generate_launch_description():
         name='wheel_tf_node',
         output='screen'
     )
+    stm32_ticks = Node(
+        package="my_robot_config",
+        executable="stm32_wheel_ticks.py",
+        name="stm32_wheel_ticks",
+        output="screen",
+        parameters=[{
+            'port': '/dev/ttyACM0',
+            'baud': 115200
+    }]
+)
 
     return LaunchDescription([
         imu_driver,
@@ -58,4 +68,5 @@ def generate_launch_description():
         encoder_odom,
         odom_fusion,
         wheel_tf_node,
+        stm32_ticks,
     ])
