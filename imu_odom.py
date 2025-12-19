@@ -42,7 +42,7 @@ class ImuOdom(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-    node = EncoderOdom()
+    node = ImuOdom()
     try:
         rclpy.spin(node)   # ⬅⬅⬅ BẮT BUỘC
     except KeyboardInterrupt:
