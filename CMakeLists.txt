@@ -21,11 +21,9 @@ install(
 install(
   PROGRAMS
     scripts/imu_odom.py
-    scripts/encoder_odom.py
-    scripts/odom_fusion.py
+    scripts/stm32_reader.py
+    scripts/encoder_dep_trai.py
     scripts/wheel_tf_node.py
-    scripts/dieukhien_node.py
-    scripts/stm32_wheel_ticks.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
