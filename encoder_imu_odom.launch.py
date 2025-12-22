@@ -3,18 +3,16 @@ from launch_ros.actions import Node
 
 
 def generate_launch_description():
-
     imu_driver = Node(
         package='imu_hwt911',
         executable='hwt911_node',
         name='hwt911',
         output='screen',
         parameters=[{
-            'port': '/dev/imu',
+            'port': '/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0',
             'baud': 57600,
         }]
     )
-
     imu_odom = Node(
         package='my_robot_config',
         executable='imu_odom.py',
@@ -25,48 +23,37 @@ def generate_launch_description():
             'odom_topic': '/odom_imu',
         }]
     )
-
     encoder_odom = Node(
         package='my_robot_config',
-        executable='encoder_odom.py',
+        executable='encoder_dep_trai.py',
         name='encoder_odom',
         output='screen',
         parameters=[{
             'wheel_radius': 0.07,
-            'base_width': 0.50,
-            'ticks_per_rev': 6864.0,
+            'lx': 0.235,
+            'ly': 0.24,
         }]
     )
-
-    odom_fusion = Node(
+    stm32_reader = Node(
         package='my_robot_config',
-        executable='odom_fusion.py',
-        name='odom_fusion',
-        output='screen'
-    )
-
+        executable='stm32_reader.py',
+        name='stm32_reader',
+        output='screen',
+        parameters=[{
+            'port': '/dev/ttyACM0',
+            'baud': 115200,
+        }]
+   )
     wheel_tf_node = Node(
         package='my_robot_config',
         executable='wheel_tf_node.py',
         name='wheel_tf_node',
         output='screen'
     )
-    stm32_ticks = Node(
-        package="my_robot_config",
-        executable="stm32_wheel_ticks.py",
-        name="stm32_wheel_ticks",
-        output="screen",
-        parameters=[{
-            'port': '/dev/ttyACM0',
-            'baud': 115200
-    }]
-)
-
     return LaunchDescription([
         imu_driver,
         imu_odom,
         encoder_odom,
-        odom_fusion,
+        stm32_reader,
         wheel_tf_node,
-        stm32_ticks,
     ])
