@@ -13,7 +13,7 @@ sudo apt install \
 sudo apt install ros-humble-slam-toolbox
 sudo apt install ros-humble-rplidar-ros
 sudo apt install teleop_twist_keyboard
-
+sudo apt install ros-humble-nav2-bringup 
 pip3 install \
   numpy \
   transforms3d \
