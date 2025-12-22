@@ -22,3 +22,4 @@ pip3 install \
 sudo usermod -aG dialout $USER
 sudo apt install python3-colcon-common-extensions
 
+git clone https://github.com/Slamtec/rplidar_ros
