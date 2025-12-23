@@ -12,7 +12,7 @@ sudo apt install \
   ros-humble-robot-state-publisher
 sudo apt install ros-humble-slam-toolbox
 sudo apt install ros-humble-rplidar-ros
-sudo apt install teleop_twist_keyboard
+sudo apt install ros-humble-teleop-twist-keyboard
 sudo apt install ros-humble-nav2-bringup 
 pip3 install \
   numpy \
