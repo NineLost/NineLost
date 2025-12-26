@@ -1,0 +1,30 @@
+amcl:
+  ros__parameters:
+    use_sim_time: false
+
+    # Frames
+    base_frame_id: base_link
+    odom_frame_id: odom
+    global_frame_id: map
+
+    # Laser
+    scan_topic: scan_merged
+    laser_model_type: likelihood_field
+
+    # Particle filter
+    min_particles: 500
+    max_particles: 2000
+    kld_err: 0.05
+    kld_z: 0.99
+
+    update_min_d: 0.2
+    update_min_a: 0.2
+
+    resample_interval: 1
+    transform_tolerance: 0.2
+
+    recovery_alpha_slow: 0.0
+    recovery_alpha_fast: 0.0
+    
+    update_min_d: 0.25
+    update_min_a: 0.3
