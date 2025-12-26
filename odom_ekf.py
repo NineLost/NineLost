@@ -35,7 +35,7 @@ ekf_node:
     frequency: 50.0  # Tần số update EKF (Hz) - khớp với rate của velocity_bridge
     sensor_timeout: 0.1  # Timeout nếu sensor không gửi data (giây)
     two_d_mode: true  # Robot mecanum chỉ di chuyển trên mặt phẳng 2D
-    odometry_output_topic: /odometry/filtered
+    odometry_output_topic: /odom_filtered
     
     # ==========================================================================
     # TF FRAMES
@@ -44,7 +44,7 @@ ekf_node:
     map_frame: map              # Frame bản đồ (từ SLAM)
     odom_frame: odom            # Frame odometry
     base_link_frame: base_link  # Frame robot 
-    world_frame: /odom         # Frame world - dùng odom cho odometry, map cho localization
+    world_frame: odom         # Frame world - dùng odom cho odometry, map cho localization
     
     # ==========================================================================
     # TF PUBLISH
@@ -71,8 +71,8 @@ ekf_node:
     odom0: /odom
     odom0_config: [false, false, false,      # x, y, z position - EKF tự tính
                    false, false, false,    # roll, pitch, yaw - EKF tự tính  
-                   true,  true,  false,    # ✅ vx, vy velocity - DÙNG TỪ ENCODER
-                   false, false, false,     # ✅ wz angular velocity - DÙNG TỪ ENCODER (backup)
+                   false,  false,  false,    # ✅ vx, vy velocity - DÙNG TỪ ENCODER
+                   false, false, true,     # ✅ wz angular velocity - DÙNG TỪ ENCODER (backup)
                    false, false, false]    # ax, ay, az acceleration - không có
     
     # Covariance override (tùy chọn)
@@ -114,7 +114,7 @@ ekf_node:
                   false, false, false,     #  yaw orientation - DÙNG TỪ IMU ANGLE
                   false, false, false,     # vx, vy, vz velocity - IMU không đo
                   false, false, true,      # ✅ wz angular velocity - DÙNG TỪ IMU GYRO (QUAN TRỌNG!)
-                  true,  false, false]     # ✅ ax acceleration X - bổ sung thông tin
+                  false, false, false]     # ax, ay, az acceleration - không có
     
     # Differential mode cho IMU
     # true = Chỉ dùng THAY ĐỔI orientation (tốt cho yaw drift)
@@ -173,21 +173,21 @@ ekf_node:
     # Độ không chắc chắn ban đầu của trạng thái
     # Giá trị lớn = EKF sẽ nhanh chóng tin sensor hơn dự đoán ban đầu
     # ==========================================================================
-    initial_estimate_covariance: [1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,  0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9, 0.0,
-                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-9]
+    initial_estimate_covariance: [1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,  0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3, 0.0,
+                                  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  0.0,  1e-3]
 
 # =============================================================================
 # TÓM TẮT CÁCH HOẠT ĐỘNG:
