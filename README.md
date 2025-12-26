@@ -1,5 +1,6 @@
 # các gói cần thiết
 sudo apt install ros-humble-desktop
+
 sudo apt install \
   ros-humble-rclpy \
   ros-humble-geometry-msgs \
