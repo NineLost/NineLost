@@ -11,7 +11,9 @@
 ## Tech
 
 ### 🌟Chủ đạo ROS2
-#### 🧰 Làm việc trên LinuxOS
+
+#### 🧠 Làm việc trên low-level Stm32 (hơi què tí)
+#### 🧰 Làm việc trên LinuxOS (ubuntu)
 #### 🧭 Algorithm planner: thực hiện kết hợp các sensors để thực hiện hoạch định trên SLAM, Nav2, tối ưu thuật toán sinh quỹ đạo
 #### 👁️ Vision module: Detect object với YOLO và xử lý ảnh với OpenCV
 
