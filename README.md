@@ -27,15 +27,3 @@
 ### 📬 Liên hệ
 - Email: bachndt1@gmail.com
 - Số điện thoại: 0941393477
-
-
-
-![](https://github-readme-stats.shion.dev/api/top-langs/?username=NineLost&theme=midnight-purple&hide_border=false&include_all_commits=false&count_private=false&layout=compact)
-
-### ✍️ Random Dev Quote
-![](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=radical)
-
----
-[![](https://komarev.com/ghpvc/?username=NineLost&icon=0&color=0)](https://visitcount.itsvg.in)
-
-<!-- Proudly created with GPRM ( https://gprm.itsvg.in ) -->
