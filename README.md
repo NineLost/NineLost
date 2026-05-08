@@ -12,7 +12,7 @@
 
 ### 🌟Chủ đạo ROS2
 #### 🧰 Làm việc trên LinuxOS
-#### 🧭 Algorithm planner: thuật toán sinh quỹ đạo
+#### 🧭 Algorithm planner: thực hiện kết hợp các sensors để thực hiện hoạch định trên SLAM, Nav2, tối ưu thuật toán sinh quỹ đạo
 #### 👁️ Vision module: Detect object với YOLO và xử lý ảnh với OpenCV
 
 
