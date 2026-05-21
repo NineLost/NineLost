@@ -20,6 +20,10 @@
 ### 🏆 Archievement
 - Participating robocon 2026: on going
 
+## Side skills
+- Game development
+- Fx Trader/Funded hunter
+
 ### 📬 Contact
 - Email: bachndt1@gmail.com
 - Phone number: +84 941393477
