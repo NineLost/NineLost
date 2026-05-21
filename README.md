@@ -22,4 +22,4 @@
 
 ### 📬 Contact
 - Email: bachndt1@gmail.com
-- Số điện thoại: 0941393477
+- Phone number: 0941393477
