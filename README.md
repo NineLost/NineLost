@@ -18,7 +18,7 @@
 - #### 👁️ Vision module: Object detection with YOLO and image processing with OpenCV (good)
 
 ### 🏆 Archievement
-- Tham gia robocon 2026 đạt giải: on going
+- Participating robocon 2026: on going
 
 ### 📬 Contact
 - Email: bachndt1@gmail.com
