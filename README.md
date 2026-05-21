@@ -6,24 +6,20 @@
 ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white) ![Windows Terminal](https://img.shields.io/badge/Windows%20Terminal-%234D4D4D.svg?style=for-the-badge&logo=windows-terminal&logoColor=white) ![OpenCV](https://img.shields.io/badge/opencv-%23white.svg?style=for-the-badge&logo=opencv&logoColor=white) ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white) ![Blender](https://img.shields.io/badge/blender-%23F5792A.svg?style=for-the-badge&logo=blender&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) ![Krita](https://img.shields.io/badge/Krita-203759?style=for-the-badge&logo=krita&logoColor=EEF37B) ![TensorFlow](https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white) ![Tampermonkey](https://img.shields.io/badge/tampermonkey-%2300485B.svg?style=for-the-badge&logo=tampermonkey&logoColor=white) ![Steam](https://img.shields.io/badge/steam-%23000000.svg?style=for-the-badge&logo=steam&logoColor=white) ![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white)
 
 
-# YO!! Mình là Bách, Mình đang làm gì:
+# YO!! I'm Bach, What am I doing:
 
 ## Tech
 
-### 🌟Chủ đạo ROS2
+### 🌟 Main ROS2
 
-- #### 🧠 Làm việc trên low-level Stm32 (hơi què tí)
-- #### 🧰 Làm việc trên LinuxOS (ubuntu)
-- #### 🧭 Algorithm planner: thực hiện kết hợp các sensors để thực hiện hoạch định trên SLAM, Nav2, tối ưu thuật toán sinh quỹ đạo
-- #### 👁️ Vision module: Detect object với YOLO và xử lý ảnh với OpenCV
+- #### 🧠 Working on low-level Stm32 (little)
+- #### 🧰 Working on LinuxOS (ubuntu)
+- #### 🧭 Algorithm planner: Combine sensors to perform planning on SLAM and Nav2, optimizing the trajectory generation algorithm (good)
+- #### 👁️ Vision module: Object detection with YOLO and image processing with OpenCV (good)
 
-## Game
+### 🏆 Archievement
+- Tham gia robocon 2026 đạt giải: on going
 
-- ### Chắc là đang làm game không thấy nói gì
-
-### 🏆 Thành tích và hoạt động
-- Tham gia robocon 2026 đạt giải: __
-
-### 📬 Liên hệ
+### 📬 Contact
 - Email: bachndt1@gmail.com
 - Số điện thoại: 0941393477
