@@ -1,4 +1,3 @@
-<img width="1187" height="783" alt="image" src="https://github.com/user-attachments/assets/f8452766-958d-4751-b6a4-9d0a55a4f624" />
 ## 🌐 Socials:
 [![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=Facebook&logoColor=white)](https://facebook.com/https://www.facebook.com/LeizyaLota) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:bachndt1@gmail.com) 
 
