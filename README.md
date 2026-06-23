@@ -17,7 +17,7 @@
 - #### 👁️ Vision module: Object detection with YOLO and image processing with OpenCV (good)
 
 ### 🏆 Archievement
-- Participating robocon 2026: on going (we were in semi-finals round)
+- Participating robocon 2026: semi-finals
 
 ## Side skills
 - Game development
