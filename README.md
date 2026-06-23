@@ -11,13 +11,13 @@
 
 ### 🌟 Main ROS2
 
-- #### 🧠 Working on low-level Stm32 (little)
+- #### 🧠 Working on low-level Stm32,Esp32...
 - #### 🧰 Working on LinuxOS (ubuntu)
 - #### 🧭 Algorithm planner: Combine sensors to perform planning on SLAM and Nav2, optimizing the trajectory generation algorithm (good)
 - #### 👁️ Vision module: Object detection with YOLO and image processing with OpenCV (good)
 
 ### 🏆 Archievement
-- Participating robocon 2026: on going (we're in Final Round)
+- Participating robocon 2026: on going (we were in semi-finals round)
 
 ## Side skills
 - Game development
