@@ -22,7 +22,7 @@
 ## Side skills
 - Game development
 - Fx Trader/Funded hunter
-
+- LLM training
 ### 📬 Contact
 - Email: bachndt1@gmail.com
 - Phone number: +84 941393477
