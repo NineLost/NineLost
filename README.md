@@ -21,7 +21,7 @@
 
 ## Side skills
 - Game development
-- Fx Trader/Funded hunter
+- Cfd Trader/Funded hunter
 - AI Software / AI Product
 ### 📬 Contact
 - Email: bachndt1@gmail.com
